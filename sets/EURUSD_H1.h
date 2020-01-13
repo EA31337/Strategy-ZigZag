@@ -9,8 +9,9 @@ struct Stg_ZigZag_EURUSD_H1_Params : Stg_ZigZag_Params {
   Stg_ZigZag_EURUSD_H1_Params() {
     symbol = "EURUSD";
     tf = PERIOD_H1;
-    ZigZag_Period = 2;
-    ZigZag_Applied_Price = 3;
+    ZigZag_Depth = 0;
+    ZigZag_Deviation = 0;
+    ZigZag_Backstep = 0;
     ZigZag_Shift = 0;
     ZigZag_SignalOpenMethod = 0;
     ZigZag_SignalOpenLevel = 36;

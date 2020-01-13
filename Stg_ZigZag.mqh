@@ -29,8 +29,9 @@ INPUT double ZigZag_MaxSpread = 6.0;                                  // Max spr
 
 // Struct to define strategy parameters to override.
 struct Stg_ZigZag_Params : Stg_Params {
-  unsigned int ZigZag_Period;
-  ENUM_APPLIED_PRICE ZigZag_Applied_Price;
+  int ZigZag_Depth;
+  int ZigZag_Deviation;
+  int ZigZag_Backstep;
   int ZigZag_Shift;
   int ZigZag_SignalOpenMethod;
   double ZigZag_SignalOpenLevel;
@@ -42,8 +43,9 @@ struct Stg_ZigZag_Params : Stg_Params {
 
   // Constructor: Set default param values.
   Stg_ZigZag_Params()
-      : ZigZag_Period(::ZigZag_Period),
-        ZigZag_Applied_Price(::ZigZag_Applied_Price),
+      : ZigZag_Depth(::ZigZag_Depth),
+        ZigZag_Deviation(::ZigZag_Deviation),
+        ZigZag_Backstep(::ZigZag_Backstep),
         ZigZag_Shift(::ZigZag_Shift),
         ZigZag_SignalOpenMethod(::ZigZag_SignalOpenMethod),
         ZigZag_SignalOpenLevel(::ZigZag_SignalOpenLevel),
@@ -97,9 +99,9 @@ class Stg_ZigZag : public Strategy {
     }
     // Initialize strategy parameters.
     ChartParams cparams(_tf);
-    ZigZag_Params adx_params(_params.ZigZag_Period, _params.ZigZag_Applied_Price);
-    IndicatorParams adx_iparams(10, INDI_ZigZag);
-    StgParams sparams(new Trade(_tf, _Symbol), new Indi_ZigZag(adx_params, adx_iparams, cparams), NULL, NULL);
+    ZigZag_Params zz_params(_params.ZigZag_Depth, _params.ZigZag_Deviation, _params.ZigZag_Backstep);
+    IndicatorParams zz_iparams(10, INDI_ZIGZAG);
+    StgParams sparams(new Trade(_tf, _Symbol), new Indi_ZigZag(zz_params, zz_iparams, cparams), NULL, NULL);
     sparams.logger.SetLevel(_log_level);
     sparams.SetMagicNo(_magic_no);
     sparams.SetSignals(_params.ZigZag_SignalOpenMethod, _params.ZigZag_SignalOpenMethod,
@@ -117,15 +119,13 @@ class Stg_ZigZag : public Strategy {
    *   _cmd (int) - type of trade order command
    *   period (int) - period to check for
    *   _method (int) - signal method to use by using bitwise AND operation
-   *   _level1 (double) - signal level to consider the signal
+   *   _level (double) - signal level to consider the signal
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
     bool _result = false;
     double zigzag_0 = ((Indi_ZigZag *)this.Data()).GetValue(0);
     double zigzag_1 = ((Indi_ZigZag *)this.Data()).GetValue(1);
     double zigzag_2 = ((Indi_ZigZag *)this.Data()).GetValue(2);
-    if (_level1 == EMPTY) _level1 = GetSignalLevel1();
-    if (_level2 == EMPTY) _level2 = GetSignalLevel2();
     switch (_cmd) {
       case ORDER_TYPE_BUY:
         /*
