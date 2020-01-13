@@ -12,15 +12,12 @@ struct Stg_ZigZag_EURUSD_M5_Params : Stg_ZigZag_Params {
     ZigZag_Period = 2;
     ZigZag_Applied_Price = 3;
     ZigZag_Shift = 0;
-    ZigZag_TrailingStopMethod = 6;
-    ZigZag_TrailingProfitMethod = 11;
+    ZigZag_SignalOpenMethod = -61;
     ZigZag_SignalOpenLevel = 36;
-    ZigZag_SignalBaseMethod = -61;
-    ZigZag_SignalOpenMethod1 = 1;
-    ZigZag_SignalOpenMethod2 = 0;
+    ZigZag_SignalCloseMethod = 1;
     ZigZag_SignalCloseLevel = 36;
-    ZigZag_SignalCloseMethod1 = 1;
-    ZigZag_SignalCloseMethod2 = 0;
+    ZigZag_PriceLimitMethod = 0;
+    ZigZag_PriceLimitLevel = 0;
     ZigZag_MaxSpread = 3;
   }
 };
