@@ -90,6 +90,7 @@ class Stg_ZigZag : public Strategy {
     sparams.SetSignals(_params.ZigZag_SignalOpenMethod, _params.ZigZag_SignalOpenMethod,
                        _params.ZigZag_SignalOpenFilterMethod, _params.ZigZag_SignalOpenBoostMethod,
                        _params.ZigZag_SignalCloseMethod, _params.ZigZag_SignalCloseMethod);
+    sparams.SetPriceLimits(_params.ZigZag_PriceLimitMethod, _params.ZigZag_PriceLimitLevel);
     sparams.SetMaxSpread(_params.ZigZag_MaxSpread);
     // Initialize strategy instance.
     Strategy *_strat = new Stg_ZigZag(sparams, "ZigZag");
