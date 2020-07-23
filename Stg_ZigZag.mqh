@@ -85,7 +85,7 @@ class Stg_ZigZag : public Strategy {
     ZigZagParams zz_params(_params.ZigZag_Depth, _params.ZigZag_Deviation, _params.ZigZag_Backstep);
     zz_params.SetTf(_tf);
     StgParams sparams(new Trade(_tf, _Symbol), new Indi_ZigZag(zz_params), NULL, NULL);
-    sparams.logger.SetLevel(_log_level);
+    sparams.logger.Ptr().SetLevel(_log_level);
     sparams.SetMagicNo(_magic_no);
     sparams.SetSignals(_params.ZigZag_SignalOpenMethod, _params.ZigZag_SignalOpenMethod,
                        _params.ZigZag_SignalOpenFilterMethod, _params.ZigZag_SignalOpenBoostMethod,
