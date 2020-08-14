@@ -9,14 +9,14 @@ INPUT int ZigZag_Deviation = 0;                        // Deviation
 INPUT int ZigZag_Backstep = 0;                         // Deviation
 INPUT int ZigZag_Shift = 0;                            // Shift (relative to the current bar)
 INPUT int ZigZag_SignalOpenMethod = 0;                 // Signal open method (0-31)
-INPUT float ZigZag_SignalOpenLevel = 0.00000000;      // Signal open level
+INPUT float ZigZag_SignalOpenLevel = 0.00000000;       // Signal open level
 INPUT int ZigZag_SignalOpenFilterMethod = 0.00000000;  // Signal open filter method
 INPUT int ZigZag_SignalOpenBoostMethod = 0.00000000;   // Signal open boost method
 INPUT int ZigZag_SignalCloseMethod = 0;                // Signal close method (0-31)
-INPUT float ZigZag_SignalCloseLevel = 0.00000000;     // Signal close level
+INPUT float ZigZag_SignalCloseLevel = 0.00000000;      // Signal close level
 INPUT int ZigZag_PriceLimitMethod = 0;                 // Price limit method
-INPUT float ZigZag_PriceLimitLevel = 0;               // Price limit level
-INPUT float ZigZag_MaxSpread = 6.0;                   // Max spread to trade (pips)
+INPUT float ZigZag_PriceLimitLevel = 0;                // Price limit level
+INPUT float ZigZag_MaxSpread = 6.0;                    // Max spread to trade (pips)
 
 // Includes.
 #include <EA31337-classes/Indicators/Indi_ZigZag.mqh>
@@ -29,14 +29,14 @@ struct Stg_ZigZag_Params : StgParams {
   int ZigZag_Backstep;
   int ZigZag_Shift;
   int ZigZag_SignalOpenMethod;
-  double ZigZag_SignalOpenLevel;
+  float ZigZag_SignalOpenLevel;
   int ZigZag_SignalOpenFilterMethod;
   int ZigZag_SignalOpenBoostMethod;
   int ZigZag_SignalCloseMethod;
-  double ZigZag_SignalCloseLevel;
+  float ZigZag_SignalCloseLevel;
   int ZigZag_PriceLimitMethod;
-  double ZigZag_PriceLimitLevel;
-  double ZigZag_MaxSpread;
+  float ZigZag_PriceLimitLevel;
+  float ZigZag_MaxSpread;
 
   // Constructor: Set default param values.
   Stg_ZigZag_Params()
@@ -169,6 +169,6 @@ class Stg_ZigZag : public Strategy {
         }
       }
     }
-    return _result;
+    return (float)_result;
   }
 };
