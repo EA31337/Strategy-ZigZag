@@ -1,33 +1,26 @@
-//+------------------------------------------------------------------+
-//|                  EA31337 - multi-strategy advanced trading robot |
-//|                       Copyright 2016-2020, 31337 Investments Ltd |
-//|                                       https://github.com/EA31337 |
-//+------------------------------------------------------------------+
-
 /**
  * @file
  * Implements ZigZag strategy based on the ZigZag indicator.
  */
 
+// User input params.
+INPUT int ZigZag_Depth = 0;                            // Depth
+INPUT int ZigZag_Deviation = 0;                        // Deviation
+INPUT int ZigZag_Backstep = 0;                         // Deviation
+INPUT int ZigZag_Shift = 0;                            // Shift (relative to the current bar)
+INPUT int ZigZag_SignalOpenMethod = 0;                 // Signal open method (0-31)
+INPUT float ZigZag_SignalOpenLevel = 0.00000000;      // Signal open level
+INPUT int ZigZag_SignalOpenFilterMethod = 0.00000000;  // Signal open filter method
+INPUT int ZigZag_SignalOpenBoostMethod = 0.00000000;   // Signal open boost method
+INPUT int ZigZag_SignalCloseMethod = 0;                // Signal close method (0-31)
+INPUT float ZigZag_SignalCloseLevel = 0.00000000;     // Signal close level
+INPUT int ZigZag_PriceLimitMethod = 0;                 // Price limit method
+INPUT float ZigZag_PriceLimitLevel = 0;               // Price limit level
+INPUT float ZigZag_MaxSpread = 6.0;                   // Max spread to trade (pips)
+
 // Includes.
 #include <EA31337-classes/Indicators/Indi_ZigZag.mqh>
 #include <EA31337-classes/Strategy.mqh>
-
-// User input params.
-INPUT string __ZigZag_Parameters__ = "-- ZigZag strategy params --";  // >>> ZIGZAG <<<
-INPUT int ZigZag_Depth = 0;                                           // Depth
-INPUT int ZigZag_Deviation = 0;                                       // Deviation
-INPUT int ZigZag_Backstep = 0;                                        // Deviation
-INPUT int ZigZag_Shift = 0;                                           // Shift (relative to the current bar)
-INPUT int ZigZag_SignalOpenMethod = 0;                                // Signal open method (0-31)
-INPUT double ZigZag_SignalOpenLevel = 0.00000000;                     // Signal open level
-INPUT int ZigZag_SignalOpenFilterMethod = 0.00000000;                 // Signal open filter method
-INPUT int ZigZag_SignalOpenBoostMethod = 0.00000000;                  // Signal open boost method
-INPUT int ZigZag_SignalCloseMethod = 0;                               // Signal close method (0-31)
-INPUT double ZigZag_SignalCloseLevel = 0.00000000;                    // Signal close level
-INPUT int ZigZag_PriceLimitMethod = 0;                                // Price limit method
-INPUT double ZigZag_PriceLimitLevel = 0;                              // Price limit level
-INPUT double ZigZag_MaxSpread = 6.0;                                  // Max spread to trade (pips)
 
 // Struct to define strategy parameters to override.
 struct Stg_ZigZag_Params : StgParams {
@@ -100,7 +93,7 @@ class Stg_ZigZag : public Strategy {
   /**
    * Check strategy's opening signal.
    */
-  bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
+  bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, float _level = 0.0) {
     Indi_ZigZag *_indi = Data();
     bool _is_valid = _indi[CURR].IsValid() && _indi[PREV].IsValid() && _indi[PPREV].IsValid();
     bool _result = _is_valid;
@@ -139,48 +132,9 @@ class Stg_ZigZag : public Strategy {
   }
 
   /**
-   * Check strategy's opening signal additional filter.
-   */
-  bool SignalOpenFilter(ENUM_ORDER_TYPE _cmd, int _method = 0) {
-    bool _result = true;
-    if (_method != 0) {
-      // if (METHOD(_method, 0)) _result &= Trade().IsTrend(_cmd);
-      // if (METHOD(_method, 1)) _result &= Trade().IsPivot(_cmd);
-      // if (METHOD(_method, 2)) _result &= Trade().IsPeakHours(_cmd);
-      // if (METHOD(_method, 3)) _result &= Trade().IsRoundNumber(_cmd);
-      // if (METHOD(_method, 4)) _result &= Trade().IsHedging(_cmd);
-      // if (METHOD(_method, 5)) _result &= Trade().IsPeakBar(_cmd);
-    }
-    return _result;
-  }
-
-  /**
-   * Gets strategy's lot size boost (when enabled).
-   */
-  double SignalOpenBoost(ENUM_ORDER_TYPE _cmd, int _method = 0) {
-    bool _result = 1.0;
-    if (_method != 0) {
-      // if (METHOD(_method, 0)) if (Trade().IsTrend(_cmd)) _result *= 1.1;
-      // if (METHOD(_method, 1)) if (Trade().IsPivot(_cmd)) _result *= 1.1;
-      // if (METHOD(_method, 2)) if (Trade().IsPeakHours(_cmd)) _result *= 1.1;
-      // if (METHOD(_method, 3)) if (Trade().IsRoundNumber(_cmd)) _result *= 1.1;
-      // if (METHOD(_method, 4)) if (Trade().IsHedging(_cmd)) _result *= 1.1;
-      // if (METHOD(_method, 5)) if (Trade().IsPeakBar(_cmd)) _result *= 1.1;
-    }
-    return _result;
-  }
-
-  /**
-   * Check strategy's closing signal.
-   */
-  bool SignalClose(ENUM_ORDER_TYPE _cmd, int _method = 0, double _level = 0.0) {
-    return SignalOpen(Order::NegateOrderType(_cmd), _method, _level);
-  }
-
-  /**
    * Gets price limit value for profit take or stop loss.
    */
-  double PriceLimit(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, double _level = 0.0) {
+  float PriceLimit(ENUM_ORDER_TYPE _cmd, ENUM_ORDER_TYPE_VALUE _mode, int _method = 0, float _level = 0.0) {
     Indi_ZigZag *_indi = Data();
     bool _is_valid = _indi[CURR].IsValid() && _indi[PREV].IsValid() && _indi[PPREV].IsValid();
     double _trail = _level * Market().GetPipSize();
@@ -203,12 +157,14 @@ class Stg_ZigZag : public Strategy {
           break;
         case 3:
           // @todo: Add min, but avoid zeros.
-          _result = _direction > 0 ? _indi[CURR].value.GetMaxDbl(_indi.GetIDataType()) : _indi[CURR].value[ZIGZAG_BUFFER];
+          _result =
+              _direction > 0 ? _indi[CURR].value.GetMaxDbl(_indi.GetIDataType()) : _indi[CURR].value[ZIGZAG_BUFFER];
           _result += _trail * _direction;
           break;
         case 4: {
-          int _bar_count = (int) _level * 10;
-          _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count)) : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count));
+          int _bar_count = (int)_level * 10;
+          _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count))
+                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count));
           break;
         }
       }
