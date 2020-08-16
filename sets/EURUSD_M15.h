@@ -1,22 +1,27 @@
-//+------------------------------------------------------------------+
-//|                  EA31337 - multi-strategy advanced trading robot |
-//|                       Copyright 2016-2020, 31337 Investments Ltd |
-//|                                       https://github.com/EA31337 |
-//+------------------------------------------------------------------+
+/*
+ * @file
+ * Defines default strategy parameter values for the given timeframe.
+ */
+
+// Defines indicator's parameter values for the given pair symbol and timeframe.
+struct Indi_ZigZag_Params_M15 : Indi_ZigZag_Params {
+  Indi_ZigZag_Params_M15() : Indi_ZigZag_Params(indi_zigzag_defaults, PERIOD_M15) { shift = 0; }
+} indi_zigzag_m15;
 
 // Defines strategy's parameter values for the given pair symbol and timeframe.
-struct Stg_ZigZag_EURUSD_M15_Params : Stg_ZigZag_Params {
-  Stg_ZigZag_EURUSD_M15_Params() {
-    ZigZag_Depth = 0;
-    ZigZag_Deviation = 0;
-    ZigZag_Backstep = 0;
-    ZigZag_Shift = 0;
-    ZigZag_SignalOpenMethod = -63;
-    ZigZag_SignalOpenLevel = 36;
-    ZigZag_SignalCloseMethod = 1;
-    ZigZag_SignalCloseLevel = 36;
-    ZigZag_PriceLimitMethod = 0;
-    ZigZag_PriceLimitLevel = 0;
-    ZigZag_MaxSpread = 4;
+struct Stg_ZigZag_Params_M15 : StgParams {
+  // Struct constructor.
+  Stg_ZigZag_Params_M15() : StgParams(stg_zigzag_defaults) {
+    lot_size = 0;
+    signal_open_method = 0;
+    signal_open_filter = 1;
+    signal_open_level = 0;
+    signal_open_boost = 0;
+    signal_close_method = 0;
+    signal_close_level = 0;
+    price_limit_method = 0;
+    price_limit_level = 2;
+    tick_filter_method = 1;
+    max_spread = 0;
   }
 } stg_zigzag_m15;
