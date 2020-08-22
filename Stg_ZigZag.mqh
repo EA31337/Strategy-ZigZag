@@ -22,9 +22,9 @@ INPUT float ZigZag_MaxSpread = 6.0;                    // Max spread to trade (p
 INPUT int ZigZag_Shift = 0;                            // Shift (relative to the current bar)
 INPUT string __ZigZag_Indi_ZigZag_Parameters__ =
     "-- ZigZag strategy: ZigZag indicator params --";  // >>> ZigZag strategy: ZigZag indicator <<<
-INPUT int ZigZag_Depth = 0;                            // Depth
-INPUT int ZigZag_Deviation = 0;                        // Deviation
-INPUT int ZigZag_Backstep = 0;                         // Deviation
+INPUT int ZigZag_Depth = 12;                           // Depth
+INPUT int ZigZag_Deviation = 5;                        // Deviation
+INPUT int ZigZag_Backstep = 3;                         // Deviation
 
 // Structs.
 
