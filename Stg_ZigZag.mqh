@@ -150,25 +150,25 @@ class Stg_ZigZag : public Strategy {
     double _result = _default_value;
     if (_is_valid) {
       switch (_method) {
-        case 0:
+        case 1:
           _result = _indi[CURR].value[ZIGZAG_BUFFER];
           _result += _trail * _direction;
           break;
-        case 1:
+        case 2:
           _result = _indi[CURR].value[ZIGZAG_HIGHMAP];
           _result += _trail * _direction;
           break;
-        case 2:
+        case 3:
           _result = _indi[CURR].value[ZIGZAG_LOWMAP];
           _result += _trail * _direction;
           break;
-        case 3:
+        case 4:
           // @todo: Add min, but avoid zeros.
           _result =
               _direction > 0 ? _indi[CURR].value.GetMaxDbl(_indi.GetIDataType()) : _indi[CURR].value[ZIGZAG_BUFFER];
           _result += _trail * _direction;
           break;
-        case 4: {
+        case 5: {
           int _bar_count = (int)_level * 10;
           _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count))
                                    : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count));
