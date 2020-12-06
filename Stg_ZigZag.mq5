@@ -5,6 +5,8 @@
 
 // Includes EA31337 framework.
 #include <EA31337-classes/EA.mqh>
+#include <EA31337-classes/Indicators/Indi_ZigZag.mqh>
+#include <EA31337-classes/Strategy.mqh>
 
 // Inputs.
 input string __ZigZag_Parameters__ = "-- ZigZag strategy params --";  // >>> ZIGZAG <<<
