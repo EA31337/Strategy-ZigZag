@@ -169,8 +169,8 @@ class Stg_ZigZag : public Strategy {
           break;
         case 5: {
           int _bar_count = (int)_level * 10;
-          _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest(_bar_count))
-                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest(_bar_count));
+          _result = _direction > 0 ? _indi.GetPrice(PRICE_HIGH, _indi.GetHighest<double>(_bar_count))
+                                   : _indi.GetPrice(PRICE_LOW, _indi.GetLowest<double>(_bar_count));
           break;
         }
       }
