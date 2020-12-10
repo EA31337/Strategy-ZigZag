@@ -100,34 +100,34 @@ class Stg_ZigZag : public Strategy {
     Indi_ZigZag *_indi = Data();
     bool _is_valid = _indi[CURR].IsValid() && _indi[PREV].IsValid() && _indi[PPREV].IsValid();
     bool _result = _is_valid;
-    double curr_buff = _indi[CURR][ZIGZAG_BUFFER];
-    double prev_buff = _indi[PREV][ZIGZAG_BUFFER];
-    double pprev_buff = _indi[PPREV][ZIGZAG_BUFFER];
-    double curr_hmap = _indi[CURR][ZIGZAG_HIGHMAP];
-    double prev_hmap = _indi[PREV][ZIGZAG_HIGHMAP];
-    double pprev_hmap = _indi[PPREV][ZIGZAG_HIGHMAP];
-    double curr_lmap = _indi[CURR][ZIGZAG_LOWMAP];
-    double prev_lmap = _indi[PREV][ZIGZAG_LOWMAP];
-    double pprev_lmap = _indi[PPREV][ZIGZAG_LOWMAP];
+    double curr_buff = _indi[CURR][(int)ZIGZAG_BUFFER];
+    double prev_buff = _indi[PREV][(int)ZIGZAG_BUFFER];
+    double pprev_buff = _indi[PPREV][(int)ZIGZAG_BUFFER];
+    double curr_hmap = _indi[CURR][(int)ZIGZAG_HIGHMAP];
+    double prev_hmap = _indi[PREV][(int)ZIGZAG_HIGHMAP];
+    double pprev_hmap = _indi[PPREV][(int)ZIGZAG_HIGHMAP];
+    double curr_lmap = _indi[CURR][(int)ZIGZAG_LOWMAP];
+    double prev_lmap = _indi[PREV][(int)ZIGZAG_LOWMAP];
+    double pprev_lmap = _indi[PPREV][(int)ZIGZAG_LOWMAP];
     if (_is_valid) {
       switch (_cmd) {
         case ORDER_TYPE_BUY:
-          _result = (_indi[CURR][ZIGZAG_BUFFER] > 0 && _indi.GetLow(CURR) < _indi[CURR][ZIGZAG_BUFFER]) ||
-                    (_indi[PREV][ZIGZAG_BUFFER] > 0 && _indi.GetLow(PREV) < _indi[PREV][ZIGZAG_BUFFER]) ||
-                    (_indi[PPREV][ZIGZAG_BUFFER] > 0 && _indi.GetLow(PPREV) < _indi[PPREV][ZIGZAG_BUFFER]);
+          _result = (_indi[CURR][(int)ZIGZAG_BUFFER] > 0 && _indi.GetLow(CURR) < _indi[CURR][(int)ZIGZAG_BUFFER]) ||
+                    (_indi[PREV][(int)ZIGZAG_BUFFER] > 0 && _indi.GetLow(PREV) < _indi[PREV][(int)ZIGZAG_BUFFER]) ||
+                    (_indi[PPREV][(int)ZIGZAG_BUFFER] > 0 && _indi.GetLow(PPREV) < _indi[PPREV][(int)ZIGZAG_BUFFER]);
           if (METHOD(_method, 0))
-            _result &= _indi[CURR][ZIGZAG_HIGHMAP] > 0 && _indi.GetLow(PREV) < _indi[CURR][ZIGZAG_HIGHMAP];
+            _result &= _indi[CURR][(int)ZIGZAG_HIGHMAP] > 0 && _indi.GetLow(PREV) < _indi[CURR][(int)ZIGZAG_HIGHMAP];
           if (METHOD(_method, 1))
-            _result &= _indi[CURR][ZIGZAG_LOWMAP] > 0 && _indi.GetLow(PREV) < _indi[CURR][ZIGZAG_LOWMAP];
+            _result &= _indi[CURR][(int)ZIGZAG_LOWMAP] > 0 && _indi.GetLow(PREV) < _indi[CURR][(int)ZIGZAG_LOWMAP];
           break;
         case ORDER_TYPE_SELL:
-          _result = (_indi[CURR][ZIGZAG_BUFFER] > 0 && _indi.GetHigh(CURR) > _indi[CURR][ZIGZAG_BUFFER]) ||
-                    (_indi[PREV][ZIGZAG_BUFFER] > 0 && _indi.GetHigh(PREV) > _indi[PREV][ZIGZAG_BUFFER]) ||
-                    (_indi[PPREV][ZIGZAG_BUFFER] > 0 && _indi.GetHigh(PPREV) > _indi[PPREV][ZIGZAG_BUFFER]);
+          _result = (_indi[CURR][(int)ZIGZAG_BUFFER] > 0 && _indi.GetHigh(CURR) > _indi[CURR][(int)ZIGZAG_BUFFER]) ||
+                    (_indi[PREV][(int)ZIGZAG_BUFFER] > 0 && _indi.GetHigh(PREV) > _indi[PREV][(int)ZIGZAG_BUFFER]) ||
+                    (_indi[PPREV][(int)ZIGZAG_BUFFER] > 0 && _indi.GetHigh(PPREV) > _indi[PPREV][(int)ZIGZAG_BUFFER]);
           if (METHOD(_method, 0))
-            _result &= _indi[CURR][ZIGZAG_HIGHMAP] > 0 && _indi.GetLow(PREV) > _indi[CURR][ZIGZAG_HIGHMAP];
+            _result &= _indi[CURR][(int)ZIGZAG_HIGHMAP] > 0 && _indi.GetLow(PREV) > _indi[CURR][(int)ZIGZAG_HIGHMAP];
           if (METHOD(_method, 1))
-            _result &= _indi[CURR][ZIGZAG_LOWMAP] > 0 && _indi.GetLow(PREV) > _indi[CURR][ZIGZAG_LOWMAP];
+            _result &= _indi[CURR][(int)ZIGZAG_LOWMAP] > 0 && _indi.GetLow(PREV) > _indi[CURR][(int)ZIGZAG_LOWMAP];
           break;
       }
     }
@@ -147,20 +147,20 @@ class Stg_ZigZag : public Strategy {
     if (_is_valid) {
       switch (_method) {
         case 1:
-          _result = _indi[CURR][ZIGZAG_BUFFER];
+          _result = _indi[CURR][(int)ZIGZAG_BUFFER];
           _result += _trail * _direction;
           break;
         case 2:
-          _result = _indi[CURR][ZIGZAG_HIGHMAP];
+          _result = _indi[CURR][(int)ZIGZAG_HIGHMAP];
           _result += _trail * _direction;
           break;
         case 3:
-          _result = _indi[CURR][ZIGZAG_LOWMAP];
+          _result = _indi[CURR][(int)ZIGZAG_LOWMAP];
           _result += _trail * _direction;
           break;
         case 4:
           // @todo: Add min, but avoid zeros.
-          _result = _direction > 0 ? _indi[CURR].GetMax<double>() : _indi[CURR][ZIGZAG_BUFFER];
+          _result = _direction > 0 ? _indi[CURR].GetMax<double>() : _indi[CURR][(int)ZIGZAG_BUFFER];
           _result += _trail * _direction;
           break;
         case 5: {
