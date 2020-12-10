@@ -160,7 +160,7 @@ class Stg_ZigZag : public Strategy {
           break;
         case 4:
           // @todo: Add min, but avoid zeros.
-          _result = _direction > 0 ? _indi[CURR].value.GetMaxDbl(_indi.GetIDataType()) : _indi[CURR][ZIGZAG_BUFFER];
+          _result = _direction > 0 ? _indi[CURR].GetMax<double>() : _indi[CURR][ZIGZAG_BUFFER];
           _result += _trail * _direction;
           break;
         case 5: {
