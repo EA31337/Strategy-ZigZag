@@ -1,0 +1,7 @@
+; Optimize signal close level param.
+ZigZag_SignalCloseLevel,1=10
+ZigZag_SignalCloseLevel,2=5
+ZigZag_SignalCloseLevel,3=40
+ZigZag_SignalCloseLevel,F=1
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_TickFilterMethod=1

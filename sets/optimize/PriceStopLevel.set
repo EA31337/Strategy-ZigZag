@@ -1,0 +1,7 @@
+; Optimize price stop level param.
+ZigZag_PriceStopLevel,1=10
+ZigZag_PriceStopLevel,2=5
+ZigZag_PriceStopLevel,3=40
+ZigZag_PriceStopLevel,F=1
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_TickFilterMethod=1

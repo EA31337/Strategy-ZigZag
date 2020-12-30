@@ -1,0 +1,8 @@
+; Optimize price stop method param.
+ZigZag_PriceStopMethod,1=0
+ZigZag_PriceStopMethod,2=1
+ZigZag_PriceStopMethod,3=4
+ZigZag_PriceStopMethod,F=1
+ZigZag_OrderCloseTime=-20
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_TickFilterMethod=1

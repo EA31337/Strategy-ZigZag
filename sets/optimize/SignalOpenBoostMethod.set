@@ -1,0 +1,7 @@
+; Optimize signal open boost method param.
+ZigZag_SignalOpenBoostMethod,1=1
+ZigZag_SignalOpenBoostMethod,2=1
+ZigZag_SignalOpenBoostMethod,3=8
+ZigZag_SignalOpenBoostMethod,F=1
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_TickFilterMethod=1

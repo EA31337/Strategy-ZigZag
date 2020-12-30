@@ -1,0 +1,7 @@
+; Optimize signal open level param.
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_SignalOpenLevel,1=0
+ZigZag_SignalOpenLevel,2=1
+ZigZag_SignalOpenLevel,3=10
+ZigZag_SignalOpenLevel,F=1
+ZigZag_TickFilterMethod=1

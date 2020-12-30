@@ -1,0 +1,6 @@
+; Optimize tick filter method param.
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_TickFilterMethod,1=1
+ZigZag_TickFilterMethod,2=1
+ZigZag_TickFilterMethod,3=32
+ZigZag_TickFilterMethod,F=1

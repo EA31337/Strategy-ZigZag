@@ -1,0 +1,7 @@
+; Optimize signal open method param.
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_SignalOpenMethod,1=-4
+ZigZag_SignalOpenMethod,2=1
+ZigZag_SignalOpenMethod,3=4
+ZigZag_SignalOpenMethod,F=1
+ZigZag_TickFilterMethod=1

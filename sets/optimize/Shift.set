@@ -1,0 +1,7 @@
+; Optimize strategy shift param.
+ZigZag_Shift,1=0
+ZigZag_Shift,2=1
+ZigZag_Shift,3=1
+ZigZag_Shift,F=1
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_TickFilterMethod=1
