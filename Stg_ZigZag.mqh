@@ -16,6 +16,7 @@ INPUT float ZigZag_PriceStopLevel = 0;                 // Price stop level
 INPUT int ZigZag_TickFilterMethod = 0;                 // Tick filter method
 INPUT float ZigZag_MaxSpread = 6.0;                    // Max spread to trade (pips)
 INPUT int ZigZag_Shift = 0;                            // Shift (relative to the current bar)
+INPUT int ZigZag_OrderCloseTime = -10;                 // Order close time in mins (>0) or bars (<0)
 INPUT string __ZigZag_Indi_ZigZag_Parameters__ =
     "-- ZigZag strategy: ZigZag indicator params --";  // >>> ZigZag strategy: ZigZag indicator <<<
 INPUT int ZigZag_Depth = 12;                           // Depth
@@ -41,7 +42,7 @@ struct Stg_ZigZag_Params_Defaults : StgParams {
       : StgParams(::ZigZag_SignalOpenMethod, ::ZigZag_SignalOpenFilterMethod, ::ZigZag_SignalOpenLevel,
                   ::ZigZag_SignalOpenBoostMethod, ::ZigZag_SignalCloseMethod, ::ZigZag_SignalCloseLevel,
                   ::ZigZag_PriceStopMethod, ::ZigZag_PriceStopLevel, ::ZigZag_TickFilterMethod, ::ZigZag_MaxSpread,
-                  ::ZigZag_Shift) {}
+                  ::ZigZag_Shift, ::ZigZag_OrderCloseTime) {}
 } stg_zigzag_defaults;
 
 // Struct to define strategy parameters to override.
