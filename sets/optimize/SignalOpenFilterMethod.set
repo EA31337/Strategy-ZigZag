@@ -1,6 +1,6 @@
 ; Optimize signal open filter method param.
 ZigZag_SignalOpenFilterMethod,1=0
-ZigZag_SignalOpenFilterMethod,2=9
-ZigZag_SignalOpenFilterMethod,3=49
+ZigZag_SignalOpenFilterMethod,2=1
+ZigZag_SignalOpenFilterMethod,3=31
 ZigZag_SignalOpenFilterMethod,F=1
 ZigZag_TickFilterMethod=1
