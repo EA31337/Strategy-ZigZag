@@ -1,11 +1,11 @@
 ---
-name: Optimize Indicator params
+name: Optimize PriceStop params
 
 # yamllint disable-line rule:truthy
 on:
   push:
     branches:
-      - 'optimize-indi'
+      - 'optimize-pricestop'
 
 jobs:
   Compile:
@@ -43,25 +43,15 @@ jobs:
         with:
           name: EA
           path: '*.ex?'
-      - name: Upload config
-        uses: actions/upload-artifact@v2
-        with:
-          name: config
-          path: 'config'
-      - name: Upload sets
-        uses: actions/upload-artifact@v2
-        with:
-          name: sets
-          path: 'sets/optimize/indicator'
   Process:
+    env:
+      SETS_DIR: sets/optimize/pricestop
     outputs:
       sets-list: ${{ steps.get-sets.outputs.sets }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Set output with list of sets
-        env:
-          SETS_DIR: sets/optimize/indicator
         id: get-sets
         run: |
           import glob, json, os
@@ -71,6 +61,16 @@ jobs:
         shell: python
       - name: Display output
         run: echo ${{ steps.get-sets.outputs.sets }}
+      - name: Upload config
+        uses: actions/upload-artifact@v2
+        with:
+          name: config
+          path: 'config'
+      - name: Upload sets
+        uses: actions/upload-artifact@v2
+        with:
+          name: sets
+          path: ${{ env.SETS_DIR }}
   Optimize:
     needs: [Compile, Process]
     runs-on: ubuntu-latest
@@ -96,14 +96,20 @@ jobs:
           output_file: sets/${{ matrix.setfile }}
           data_file: sets/.env
           data_format: env
-      - name: Read timeframe
-        id: tf
+      - name: Sets input data
+        id: data
         run: |
           tfs = {"M1":1, "M5":2, "M15":4, "M30":8, "H1":16, "H4":32, "H8":64}
           print("::set-output name=tf::{}".format(tfs.get("${{ matrix.tf }}")))
+          setfile = "sets/${{ matrix.setfile }}"
+          for line in open(setfile, "r").readlines():
+            if line.strip().endswith(",F=1"):
+              print("::set-output name=param::{}"
+                .format(line.strip().replace(",F=1", "")))
+              break
         shell: python
       - name: Sets timeframe
-        run: echo Active_Tfs=${{ steps.tf.outputs.tf }} | tee -a sets/*.set
+        run: echo Active_Tfs=${{ steps.data.outputs.tf }} | tee -a sets/*.set
       - name: Display SET file
         run: cat sets/${{ matrix.setfile }}
       - uses: ea31337/mql-tester-action@master
@@ -118,6 +124,7 @@ jobs:
           OptOptimize: true
           OptVerbose: true
           SetFile: ${{ github.workspace }}/sets/${{ matrix.setfile }}
+          SetParams: ${{ steps.data.outputs.param }}
           TestExpert: "Stg_ZigZag"
           TestPeriod: ${{ matrix.tf }}
           TestReportName: Report-${{ matrix.pair }}-${{ matrix.tf }}
