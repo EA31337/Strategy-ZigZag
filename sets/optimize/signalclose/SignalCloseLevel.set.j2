@@ -1,6 +1,6 @@
 ZigZag_Indi_ZigZag_Applied_Price={{ applied_price | replace("(ENUM_APPLIED_PRICE)", "") | int | default(0) }}
 ZigZag_Indi_ZigZag_MA_Method={{ ma_method | default(0) }}
-ZigZag_Indi_ZigZag_Period={{ period | default(4) }}
+ZigZag_Indi_ZigZag_Period={{ (period | default(0) | int) }}
 ZigZag_Indi_ZigZag_Shift={{ shift | default(0) }}
 ZigZag_LotSize={{ lot_size | default(0) }}
 ZigZag_PriceStopLevel={{ price_stop_level | replace("(float)", "") | float | default(0) }}
