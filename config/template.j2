@@ -25,7 +25,7 @@ struct Stg_ZigZag_Params_{{ Timeframe }} : StgParams {
     signal_close_method = {{ ZigZag_SignalCloseMethod | default(0) }};
     signal_close_level = (float){{ ZigZag_SignalCloseLevel | default(0) }};
     price_stop_method = {{ ZigZag_PriceStopMethod | default(0) }};
-    price_stop_level = {{ ZigZag_SignalCloseLevel | default(1) }};
+    price_stop_level = (float){{ ZigZag_SignalCloseLevel | default(1) }};
     tick_filter_method = {{ ZigZag_TickFilterMethod  | default(1) }};
     max_spread = {{ ZigZag_MaxSpread | default(0) }};
   }
