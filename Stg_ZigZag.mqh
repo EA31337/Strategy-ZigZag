@@ -4,37 +4,34 @@
  */
 
 // User input params.
-INPUT float ZigZag_LotSize = 0;                       // Lot size
-INPUT int ZigZag_SignalOpenMethod = 0;                // Signal open method (0-31)
-INPUT float ZigZag_SignalOpenLevel = 0.0f;            // Signal open level
-INPUT int ZigZag_SignalOpenFilterMethod = 1;          // Signal open filter method
-INPUT int ZigZag_SignalOpenBoostMethod = 0.00000000;  // Signal open boost method
-INPUT int ZigZag_SignalCloseMethod = 0;               // Signal close method (0-31)
-INPUT float ZigZag_SignalCloseLevel = 0.0f;           // Signal close level
-INPUT int ZigZag_PriceStopMethod = 0;                 // Price stop method
-INPUT float ZigZag_PriceStopLevel = 0;                // Price stop level
-INPUT int ZigZag_TickFilterMethod = 1;                // Tick filter method
-INPUT float ZigZag_MaxSpread = 4.0;                   // Max spread to trade (pips)
-INPUT int ZigZag_Shift = 0;                           // Shift (relative to the current bar)
-INPUT int ZigZag_OrderCloseTime = -20;                // Order close time in mins (>0) or bars (<0)
+INPUT float ZigZag_LotSize = 0;               // Lot size
+INPUT int ZigZag_SignalOpenMethod = 0;        // Signal open method (0-31)
+INPUT float ZigZag_SignalOpenLevel = 0.0f;    // Signal open level
+INPUT int ZigZag_SignalOpenFilterMethod = 1;  // Signal open filter method
+INPUT int ZigZag_SignalOpenBoostMethod = 0;   // Signal open boost method
+INPUT int ZigZag_SignalCloseMethod = 0;       // Signal close method (0-31)
+INPUT float ZigZag_SignalCloseLevel = 0.0f;   // Signal close level
+INPUT int ZigZag_PriceStopMethod = 0;         // Price stop method
+INPUT float ZigZag_PriceStopLevel = 0;        // Price stop level
+INPUT int ZigZag_TickFilterMethod = 1;        // Tick filter method
+INPUT float ZigZag_MaxSpread = 4.0;           // Max spread to trade (pips)
+INPUT int ZigZag_Shift = 0;                   // Shift (relative to the current bar)
+INPUT int ZigZag_OrderCloseTime = -20;        // Order close time in mins (>0) or bars (<0)
 INPUT string __ZigZag_Indi_ZigZag_Parameters__ =
     "-- ZigZag strategy: ZigZag indicator params --";  // >>> ZigZag strategy: ZigZag indicator <<<
-INPUT int ZigZag_Depth = 12;                           // Depth
-INPUT int ZigZag_Deviation = 5;                        // Deviation
-INPUT int ZigZag_Backstep = 3;                         // Deviation
+INPUT int ZigZag_Indi_ZigZag_Depth = 12;               // Depth
+INPUT int ZigZag_Indi_ZigZag_Deviation = 5;            // Deviation
+INPUT int ZigZag_Indi_ZigZag_Backstep = 3;             // Backstep
+INPUT int ZigZag_Indi_ZigZag_Shift = 0;                // Shift
 
 // Structs.
 
 // Defines struct with default user indicator values.
 struct Indi_ZigZag_Params_Defaults : ZigZagParams {
-  Indi_ZigZag_Params_Defaults() : ZigZagParams(::ZigZag_Depth, ::ZigZag_Deviation, ::ZigZag_Backstep) {}
+  Indi_ZigZag_Params_Defaults()
+      : ZigZagParams(::ZigZag_Indi_ZigZag_Depth, ::ZigZag_Indi_ZigZag_Deviation, ::ZigZag_Indi_ZigZag_Backstep,
+                     ::ZigZag_Indi_ZigZag_Shift) {}
 } indi_zigzag_defaults;
-
-// Defines struct to store indicator parameter values.
-struct Indi_ZigZag_Params : public ZigZagParams {
-  // Struct constructors.
-  void Indi_ZigZag_Params(ZigZagParams &_params, ENUM_TIMEFRAMES _tf) : ZigZagParams(_params, _tf) {}
-};
 
 // Defines struct with default user strategy values.
 struct Stg_ZigZag_Params_Defaults : StgParams {
@@ -47,11 +44,11 @@ struct Stg_ZigZag_Params_Defaults : StgParams {
 
 // Struct to define strategy parameters to override.
 struct Stg_ZigZag_Params : StgParams {
-  Indi_ZigZag_Params iparams;
+  ZigZagParams iparams;
   StgParams sparams;
 
   // Struct constructors.
-  Stg_ZigZag_Params(Indi_ZigZag_Params &_iparams, StgParams &_sparams)
+  Stg_ZigZag_Params(ZigZagParams &_iparams, StgParams &_sparams)
       : iparams(indi_zigzag_defaults, _iparams.tf), sparams(stg_zigzag_defaults) {
     iparams = _iparams;
     sparams = _sparams;
@@ -73,11 +70,11 @@ class Stg_ZigZag : public Strategy {
 
   static Stg_ZigZag *Init(ENUM_TIMEFRAMES _tf = NULL, long _magic_no = NULL, ENUM_LOG_LEVEL _log_level = V_INFO) {
     // Initialize strategy initial values.
-    Indi_ZigZag_Params _indi_params(indi_zigzag_defaults, _tf);
+    ZigZagParams _indi_params(indi_zigzag_defaults, _tf);
     StgParams _stg_params(stg_zigzag_defaults);
     if (!Terminal::IsOptimization()) {
-      SetParamsByTf<Indi_ZigZag_Params>(_indi_params, _tf, indi_zigzag_m1, indi_zigzag_m5, indi_zigzag_m15,
-                                        indi_zigzag_m30, indi_zigzag_h1, indi_zigzag_h4, indi_zigzag_h8);
+      SetParamsByTf<ZigZagParams>(_indi_params, _tf, indi_zigzag_m1, indi_zigzag_m5, indi_zigzag_m15, indi_zigzag_m30,
+                                  indi_zigzag_h1, indi_zigzag_h4, indi_zigzag_h8);
       SetParamsByTf<StgParams>(_stg_params, _tf, stg_zigzag_m1, stg_zigzag_m5, stg_zigzag_m15, stg_zigzag_m30,
                                stg_zigzag_h1, stg_zigzag_h4, stg_zigzag_h8);
     }

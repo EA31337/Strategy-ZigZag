@@ -4,8 +4,8 @@
  */
 
 // Defines indicator's parameter values for the given pair symbol and timeframe.
-struct Indi_ZigZag_Params_M5 : Indi_ZigZag_Params {
-  Indi_ZigZag_Params_M5() : Indi_ZigZag_Params(indi_zigzag_defaults, PERIOD_M5) { shift = 0; }
+struct Indi_ZigZag_Params_M5 : ZigZagParams {
+  Indi_ZigZag_Params_M5() : ZigZagParams(indi_zigzag_defaults, PERIOD_M5) { shift = 0; }
 } indi_zigzag_m5;
 
 // Defines strategy's parameter values for the given pair symbol and timeframe.
