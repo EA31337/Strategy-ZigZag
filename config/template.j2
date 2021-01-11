@@ -7,7 +7,7 @@
 struct Indi_ZigZag_Params_{{ Timeframe }} : ZigZagParams {
   Indi_ZigZag_Params_{{ Timeframe }}() : ZigZagParams(indi_zigzag_defaults, PERIOD_{{ Timeframe }}) {
     applied_price = (ENUM_APPLIED_PRICE){{ ZigZag_Indi_ZigZag_Applied_Price | default(0) }};
-    ma_method = {{ ZigZag_Indi_ZigZag_MA_Method | default(0) }};
+    ma_method = (ENUM_MA_METHOD){{ ZigZag_Indi_ZigZag_MA_Method | default(0) }};
     period = {{ ZigZag_Indi_ZigZag_Period | default(0) }};
     shift = {{ ZigZag_Shift | default(0) }};
   }
