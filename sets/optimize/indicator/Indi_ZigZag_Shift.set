@@ -1,0 +1,7 @@
+; Optimize indicator's shift param.
+ZigZag_Indi_ZigZag_Shift,1=0
+ZigZag_Indi_ZigZag_Shift,2=1
+ZigZag_Indi_ZigZag_Shift,3=4
+ZigZag_Indi_ZigZag_Shift,F=1
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_TickFilterMethod=1
