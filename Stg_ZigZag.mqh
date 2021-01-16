@@ -96,36 +96,17 @@ class Stg_ZigZag : public Strategy {
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, float _level = 0.0f, int _shift = 0) {
     Indi_ZigZag *_indi = Data();
-    bool _is_valid = _indi[CURR].IsValid() && _indi[PREV].IsValid() && _indi[PPREV].IsValid();
+    bool _is_valid = _indi[_shift].IsValid() && _indi[_shift + 1].IsValid() && _indi[_shift + 2].IsValid();
     bool _result = _is_valid;
-    double curr_buff = _indi[CURR][(int)ZIGZAG_BUFFER];
-    double prev_buff = _indi[PREV][(int)ZIGZAG_BUFFER];
-    double pprev_buff = _indi[PPREV][(int)ZIGZAG_BUFFER];
-    double curr_hmap = _indi[CURR][(int)ZIGZAG_HIGHMAP];
-    double prev_hmap = _indi[PREV][(int)ZIGZAG_HIGHMAP];
-    double pprev_hmap = _indi[PPREV][(int)ZIGZAG_HIGHMAP];
-    double curr_lmap = _indi[CURR][(int)ZIGZAG_LOWMAP];
-    double prev_lmap = _indi[PREV][(int)ZIGZAG_LOWMAP];
-    double pprev_lmap = _indi[PPREV][(int)ZIGZAG_LOWMAP];
     if (_is_valid) {
       switch (_cmd) {
         case ORDER_TYPE_BUY:
-          _result = (_indi[CURR][(int)ZIGZAG_BUFFER] > 0 && _indi.GetLow(CURR) < _indi[CURR][(int)ZIGZAG_BUFFER]) ||
-                    (_indi[PREV][(int)ZIGZAG_BUFFER] > 0 && _indi.GetLow(PREV) < _indi[PREV][(int)ZIGZAG_BUFFER]) ||
-                    (_indi[PPREV][(int)ZIGZAG_BUFFER] > 0 && _indi.GetLow(PPREV) < _indi[PPREV][(int)ZIGZAG_BUFFER]);
-          if (METHOD(_method, 0))
-            _result &= _indi[CURR][(int)ZIGZAG_HIGHMAP] > 0 && _indi.GetLow(PREV) < _indi[CURR][(int)ZIGZAG_HIGHMAP];
-          if (METHOD(_method, 1))
-            _result &= _indi[CURR][(int)ZIGZAG_LOWMAP] > 0 && _indi.GetLow(PREV) < _indi[CURR][(int)ZIGZAG_LOWMAP];
+          _result &= _indi.GetMax<double>(_shift, (int)_level + 1) > 0;
+          _result &= fmax(_indi[_shift][(int)ZIGZAG_LOWMAP], _indi[_shift + 1][(int)ZIGZAG_LOWMAP]) > 0;
           break;
         case ORDER_TYPE_SELL:
-          _result = (_indi[CURR][(int)ZIGZAG_BUFFER] > 0 && _indi.GetHigh(CURR) > _indi[CURR][(int)ZIGZAG_BUFFER]) ||
-                    (_indi[PREV][(int)ZIGZAG_BUFFER] > 0 && _indi.GetHigh(PREV) > _indi[PREV][(int)ZIGZAG_BUFFER]) ||
-                    (_indi[PPREV][(int)ZIGZAG_BUFFER] > 0 && _indi.GetHigh(PPREV) > _indi[PPREV][(int)ZIGZAG_BUFFER]);
-          if (METHOD(_method, 0))
-            _result &= _indi[CURR][(int)ZIGZAG_HIGHMAP] > 0 && _indi.GetLow(PREV) > _indi[CURR][(int)ZIGZAG_HIGHMAP];
-          if (METHOD(_method, 1))
-            _result &= _indi[CURR][(int)ZIGZAG_LOWMAP] > 0 && _indi.GetLow(PREV) > _indi[CURR][(int)ZIGZAG_LOWMAP];
+          _result &= _indi.GetMax<double>(_shift, (int)_level + 1) > 0;
+          _result &= fmax(_indi[_shift][(int)ZIGZAG_HIGHMAP], _indi[_shift + 1][(int)ZIGZAG_HIGHMAP]) > 0;
           break;
       }
     }
