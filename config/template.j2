@@ -6,10 +6,10 @@
 // Defines indicator's parameter values for the given pair symbol and timeframe.
 struct Indi_ZigZag_Params_{{ Timeframe }} : ZigZagParams {
   Indi_ZigZag_Params_{{ Timeframe }}() : ZigZagParams(indi_zigzag_defaults, PERIOD_{{ Timeframe }}) {
-    applied_price = (ENUM_APPLIED_PRICE){{ ZigZag_Indi_ZigZag_Applied_Price | default(0) }};
-    ma_method = (ENUM_MA_METHOD){{ ZigZag_Indi_ZigZag_MA_Method | default(0) }};
-    period = {{ ZigZag_Indi_ZigZag_Period | default(0) }};
-    shift = {{ ZigZag_Shift | default(0) }};
+    backstep = {{ ZigZag_Indi_ZigZag_Backstep | default(0) }};
+    depth = {{ ZigZag_Indi_ZigZag_Depth | default(0) }};
+    deviation = {{ ZigZag_Indi_ZigZag_Deviation | default(0) }};
+    shift = {{ ZigZag_Indi_ZigZag_Shift | default(0) }};
   }
 } indi_zigzag_{{ Timeframe | lower }};
 
