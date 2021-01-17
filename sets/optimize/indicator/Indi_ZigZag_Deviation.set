@@ -1,0 +1,7 @@
+; Optimize indicator's param.
+ZigZag_Indi_ZigZag_Deviation,1=5
+ZigZag_Indi_ZigZag_Deviation,2=5
+ZigZag_Indi_ZigZag_Deviation,3=20
+ZigZag_Indi_ZigZag_Deviation,F=1
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_TickFilterMethod=1

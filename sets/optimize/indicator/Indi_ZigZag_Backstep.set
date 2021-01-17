@@ -1,0 +1,7 @@
+; Optimize indicator's param.
+ZigZag_Indi_ZigZag_Backstep,1=5
+ZigZag_Indi_ZigZag_Backstep,2=5
+ZigZag_Indi_ZigZag_Backstep,3=20
+ZigZag_Indi_ZigZag_Backstep,F=1
+ZigZag_SignalOpenFilterMethod=1
+ZigZag_TickFilterMethod=1
