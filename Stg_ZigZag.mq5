@@ -3,13 +3,15 @@
  * Implements ZigZag strategy.
  */
 
+// Includes conditional compilation directives.
+#include "config/define.h"
+
 // Includes EA31337 framework.
 #include <EA31337-classes/EA.mqh>
 #include <EA31337-classes/Indicators/Indi_ZigZag.mqh>
 #include <EA31337-classes/Strategy.mqh>
 
 // Inputs.
-input string __ZigZag_Parameters__ = "-- ZigZag strategy params --";  // >>> ZIGZAG <<<
 input int Active_Tfs = 1;                 // Activated timeframes (1-255) [M1=1,M5=2,M15=4,M30=8,H1=16,H4=32,H8=64...]
 input ENUM_LOG_LEVEL Log_Level = V_INFO;  // Log level.
 input bool Info_On_Chart = true;          // Display info on chart.
@@ -31,7 +33,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 #property description ea_desc
 #endif
 #property link ea_link
-#property copyright "Copyright 2016-2020, kenorb"
+#property copyright "Copyright 2016-2021, kenorb"
 
 // Class variables.
 EA *ea;
