@@ -16,7 +16,7 @@ INPUT int ZigZag_PriceStopMethod = 0;                                 // Price s
 INPUT float ZigZag_PriceStopLevel = 0;                                // Price stop level
 INPUT int ZigZag_TickFilterMethod = 1;                                // Tick filter method
 INPUT float ZigZag_MaxSpread = 4.0;                                   // Max spread to trade (pips)
-INPUT int ZigZag_Shift = 0;                                           // Shift (relative to the current bar)
+INPUT short ZigZag_Shift = 0;                                         // Shift (relative to the current bar)
 INPUT int ZigZag_OrderCloseTime = -20;                                // Order close time in mins (>0) or bars (<0)
 INPUT string __ZigZag_Indi_ZigZag_Parameters__ =
     "-- ZigZag strategy: ZigZag indicator params --";  // >>> ZigZag strategy: ZigZag indicator <<<
