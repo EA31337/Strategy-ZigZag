@@ -18,6 +18,8 @@ INPUT float ZigZag_PriceStopLevel = 0;         // Price stop level
 INPUT int ZigZag_TickFilterMethod = 1;         // Tick filter method
 INPUT float ZigZag_MaxSpread = 4.0;            // Max spread to trade (pips)
 INPUT short ZigZag_Shift = 0;                  // Shift (relative to the current bar)
+INPUT float ZigZag_OrderCloseLoss = 0;         // Order close loss
+INPUT float ZigZag_OrderCloseProfit = 0;       // Order close profit
 INPUT int ZigZag_OrderCloseTime = -20;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("ZigZag strategy: ZigZag indicator params");
 INPUT int ZigZag_Indi_ZigZag_Depth = 12;     // Depth
@@ -40,7 +42,11 @@ struct Stg_ZigZag_Params_Defaults : StgParams {
       : StgParams(::ZigZag_SignalOpenMethod, ::ZigZag_SignalOpenFilterMethod, ::ZigZag_SignalOpenLevel,
                   ::ZigZag_SignalOpenBoostMethod, ::ZigZag_SignalCloseMethod, ::ZigZag_SignalCloseFilter,
                   ::ZigZag_SignalCloseLevel, ::ZigZag_PriceStopMethod, ::ZigZag_PriceStopLevel,
-                  ::ZigZag_TickFilterMethod, ::ZigZag_MaxSpread, ::ZigZag_Shift, ::ZigZag_OrderCloseTime) {}
+                  ::ZigZag_TickFilterMethod, ::ZigZag_MaxSpread, ::ZigZag_Shift) {
+    Set(STRAT_PARAM_OCL, ZigZag_OrderCloseLoss);
+    Set(STRAT_PARAM_OCP, ZigZag_OrderCloseProfit);
+    Set(STRAT_PARAM_OCT, ZigZag_OrderCloseTime);
+  }
 } stg_zigzag_defaults;
 
 // Struct to define strategy parameters to override.
