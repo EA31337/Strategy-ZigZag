@@ -11,6 +11,7 @@ INPUT float ZigZag_SignalOpenLevel = 0.0f;     // Signal open level
 INPUT int ZigZag_SignalOpenFilterMethod = 32;  // Signal open filter method
 INPUT int ZigZag_SignalOpenBoostMethod = 0;    // Signal open boost method
 INPUT int ZigZag_SignalCloseMethod = 2;        // Signal close method (-127-127)
+INPUT int ZigZag_SignalCloseFilter = 0;        // Signal close filter (-127-127)
 INPUT float ZigZag_SignalCloseLevel = 0.0f;    // Signal close level
 INPUT int ZigZag_PriceStopMethod = 1;          // Price stop method
 INPUT float ZigZag_PriceStopLevel = 0;         // Price stop level
@@ -37,9 +38,9 @@ struct Indi_ZigZag_Params_Defaults : ZigZagParams {
 struct Stg_ZigZag_Params_Defaults : StgParams {
   Stg_ZigZag_Params_Defaults()
       : StgParams(::ZigZag_SignalOpenMethod, ::ZigZag_SignalOpenFilterMethod, ::ZigZag_SignalOpenLevel,
-                  ::ZigZag_SignalOpenBoostMethod, ::ZigZag_SignalCloseMethod, ::ZigZag_SignalCloseLevel,
-                  ::ZigZag_PriceStopMethod, ::ZigZag_PriceStopLevel, ::ZigZag_TickFilterMethod, ::ZigZag_MaxSpread,
-                  ::ZigZag_Shift, ::ZigZag_OrderCloseTime) {}
+                  ::ZigZag_SignalOpenBoostMethod, ::ZigZag_SignalCloseMethod, ::ZigZag_SignalCloseFilter,
+                  ::ZigZag_SignalCloseLevel, ::ZigZag_PriceStopMethod, ::ZigZag_PriceStopLevel,
+                  ::ZigZag_TickFilterMethod, ::ZigZag_MaxSpread, ::ZigZag_Shift, ::ZigZag_OrderCloseTime) {}
 } stg_zigzag_defaults;
 
 // Struct to define strategy parameters to override.
