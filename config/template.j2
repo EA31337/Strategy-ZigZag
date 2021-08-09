@@ -19,7 +19,7 @@ struct Stg_ZigZag_Params_{{ Timeframe }} : StgParams {
   Stg_ZigZag_Params_{{ Timeframe }}() : StgParams(stg_zigzag_defaults) {
     lot_size = {{ ZigZag_LotSize | default(0) }};
     signal_open_method = {{ ZigZag_SignalOpenMethod | default(0) }};
-    signal_open_filter = {{ ZigZag_SignalOpenFilterMethod | default(1) }};
+    signal_open_filter_method = {{ ZigZag_SignalOpenFilterMethod | default(1) }};
     signal_open_level = (float){{ ZigZag_SignalOpenLevel | default(0) }};
     signal_open_boost = {{ ZigZag_SignalOpenBoostMethod | default(0) }};
     signal_close_method = {{ ZigZag_SignalCloseMethod | default(0) }};
