@@ -6,26 +6,26 @@
 // User input params.
 INPUT_GROUP("ZigZag strategy: strategy params");
 INPUT float ZigZag_LotSize = 0;                // Lot size
-INPUT int ZigZag_SignalOpenMethod = 2;         // Signal open method (-127-127)
+INPUT int ZigZag_SignalOpenMethod = 0;         // Signal open method (-127-127)
 INPUT float ZigZag_SignalOpenLevel = 0.0f;     // Signal open level
 INPUT int ZigZag_SignalOpenFilterMethod = 32;  // Signal open filter method
-INPUT int ZigZag_SignalOpenFilterTime = 6;     // Signal open filter time
+INPUT int ZigZag_SignalOpenFilterTime = 8;     // Signal open filter time
 INPUT int ZigZag_SignalOpenBoostMethod = 0;    // Signal open boost method
-INPUT int ZigZag_SignalCloseMethod = 2;        // Signal close method (-127-127)
-INPUT int ZigZag_SignalCloseFilter = 0;        // Signal close filter (-127-127)
+INPUT int ZigZag_SignalCloseMethod = 0;        // Signal close method (-127-127)
+INPUT int ZigZag_SignalCloseFilter = 32;       // Signal close filter (-127-127)
 INPUT float ZigZag_SignalCloseLevel = 0.0f;    // Signal close level
-INPUT int ZigZag_PriceStopMethod = 1;          // Price stop method
+INPUT int ZigZag_PriceStopMethod = 1;          // Price stop method (0-127)
 INPUT float ZigZag_PriceStopLevel = 0;         // Price stop level
 INPUT int ZigZag_TickFilterMethod = 1;         // Tick filter method
 INPUT float ZigZag_MaxSpread = 4.0;            // Max spread to trade (pips)
 INPUT short ZigZag_Shift = 0;                  // Shift (relative to the current bar)
 INPUT float ZigZag_OrderCloseLoss = 0;         // Order close loss
 INPUT float ZigZag_OrderCloseProfit = 0;       // Order close profit
-INPUT int ZigZag_OrderCloseTime = -20;         // Order close time in mins (>0) or bars (<0)
+INPUT int ZigZag_OrderCloseTime = -30;         // Order close time in mins (>0) or bars (<0)
 INPUT_GROUP("ZigZag strategy: ZigZag indicator params");
-INPUT int ZigZag_Indi_ZigZag_Depth = 12;     // Depth
-INPUT int ZigZag_Indi_ZigZag_Deviation = 5;  // Deviation
-INPUT int ZigZag_Indi_ZigZag_Backstep = 3;   // Backstep
+INPUT int ZigZag_Indi_ZigZag_Depth = 2;      // Depth
+INPUT int ZigZag_Indi_ZigZag_Deviation = 1;  // Deviation
+INPUT int ZigZag_Indi_ZigZag_Backstep = 1;   // Backstep
 INPUT int ZigZag_Indi_ZigZag_Shift = 0;      // Shift
 
 // Structs.
@@ -103,21 +103,26 @@ class Stg_ZigZag : public Strategy {
    */
   bool SignalOpen(ENUM_ORDER_TYPE _cmd, int _method = 0, float _level = 0.0f, int _shift = 0) {
     Indi_ZigZag *_indi = GetIndicator();
-    bool _result = _indi.GetFlag(INDI_ENTRY_FLAG_IS_VALID);
+    bool _result =
+        _indi.GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift) + _indi.GetFlag(INDI_ENTRY_FLAG_IS_VALID, _shift + 2);
     if (!_result) {
       // Returns false when indicator data is not valid.
       return false;
     }
     IndicatorSignal _signals = _indi.GetSignals(4, _shift);
+    float _hm = (float)fmax4(_indi[_shift][(int)ZIGZAG_HIGHMAP], _indi[_shift + 1][(int)ZIGZAG_HIGHMAP],
+                             _indi[_shift + 2][(int)ZIGZAG_HIGHMAP], _indi[_shift + 4][(int)ZIGZAG_HIGHMAP]);
+    float _lm = (float)fmin4(_indi[_shift][(int)ZIGZAG_LOWMAP], _indi[_shift + 1][(int)ZIGZAG_LOWMAP],
+                             _indi[_shift + 2][(int)ZIGZAG_LOWMAP], _indi[_shift + 4][(int)ZIGZAG_LOWMAP]);
     switch (_cmd) {
       case ORDER_TYPE_BUY:
-        _result &= _indi.GetMax<double>(_shift, (int)_level + 1) > 0;
-        _result &= fmax(_indi[_shift][(int)ZIGZAG_LOWMAP], _indi[_shift + 1][(int)ZIGZAG_LOWMAP]) > 0;
+        _result &= _hm > 0 && Open[_shift] < _hm;
+        _result &= _lm == 0;
         _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
       case ORDER_TYPE_SELL:
-        _result &= _indi.GetMax<double>(_shift, (int)_level + 1) > 0;
-        _result &= fmax(_indi[_shift][(int)ZIGZAG_HIGHMAP], _indi[_shift + 1][(int)ZIGZAG_HIGHMAP]) > 0;
+        _result &= _lm > 0 && Open[_shift] > _lm;
+        _result &= _hm == 0;
         _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
     }
