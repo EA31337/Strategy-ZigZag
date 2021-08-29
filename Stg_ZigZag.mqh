@@ -80,7 +80,7 @@ class Stg_ZigZag : public Strategy {
   Stg_ZigZag(StgParams &_sparams, TradeParams &_tparams, ChartParams &_cparams, string _name = "")
       : Strategy(_sparams, _tparams, _cparams, _name) {}
 
-  static Stg_ZigZag *Init(ENUM_TIMEFRAMES _tf = NULL, long _magic_no = NULL, ENUM_LOG_LEVEL _log_level = V_INFO) {
+  static Stg_ZigZag *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
     ZigZagParams _indi_params(indi_zigzag_defaults, _tf);
     StgParams _stg_params(stg_zigzag_defaults);
@@ -95,7 +95,7 @@ class Stg_ZigZag : public Strategy {
     _stg_params.SetIndicator(new Indi_ZigZag(_indi_params));
     // Initialize Strategy instance.
     ChartParams _cparams(_tf, _Symbol);
-    TradeParams _tparams(_magic_no, _log_level);
+    TradeParams _tparams;
     Strategy *_strat = new Stg_ZigZag(_stg_params, _tparams, _cparams, "ZigZag");
     return _strat;
   }
