@@ -44,6 +44,7 @@ struct Stg_ZigZag_Params_Defaults : StgParams {
                   ::ZigZag_SignalOpenBoostMethod, ::ZigZag_SignalCloseMethod, ::ZigZag_SignalCloseFilter,
                   ::ZigZag_SignalCloseLevel, ::ZigZag_PriceStopMethod, ::ZigZag_PriceStopLevel,
                   ::ZigZag_TickFilterMethod, ::ZigZag_MaxSpread, ::ZigZag_Shift) {
+    Set(STRAT_PARAM_LS, ZigZag_LotSize);
     Set(STRAT_PARAM_OCL, ZigZag_OrderCloseLoss);
     Set(STRAT_PARAM_OCP, ZigZag_OrderCloseProfit);
     Set(STRAT_PARAM_OCT, ZigZag_OrderCloseTime);
