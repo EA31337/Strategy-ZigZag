@@ -52,19 +52,6 @@ struct Stg_ZigZag_Params_Defaults : StgParams {
   }
 } stg_zigzag_defaults;
 
-// Struct to define strategy parameters to override.
-struct Stg_ZigZag_Params : StgParams {
-  ZigZagParams iparams;
-  StgParams sparams;
-
-  // Struct constructors.
-  Stg_ZigZag_Params(ZigZagParams &_iparams, StgParams &_sparams)
-      : iparams(indi_zigzag_defaults, _iparams.tf.GetTf()), sparams(stg_zigzag_defaults) {
-    iparams = _iparams;
-    sparams = _sparams;
-  }
-};
-
 #ifdef __config__
 // Loads pair specific param values.
 #include "config/H1.h"
