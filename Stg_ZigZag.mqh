@@ -35,7 +35,7 @@ struct Indi_ZigZag_Params_Defaults : ZigZagParams {
   Indi_ZigZag_Params_Defaults()
       : ZigZagParams(::ZigZag_Indi_ZigZag_Depth, ::ZigZag_Indi_ZigZag_Deviation, ::ZigZag_Indi_ZigZag_Backstep,
                      ::ZigZag_Indi_ZigZag_Shift) {}
-} indi_zigzag_defaults;
+};
 
 // Defines struct with default user strategy values.
 struct Stg_ZigZag_Params_Defaults : StgParams {
@@ -50,7 +50,7 @@ struct Stg_ZigZag_Params_Defaults : StgParams {
     Set(STRAT_PARAM_OCT, ZigZag_OrderCloseTime);
     Set(STRAT_PARAM_SOFT, ZigZag_SignalOpenFilterTime);
   }
-} stg_zigzag_defaults;
+};
 
 #ifdef __config__
 // Loads pair specific param values.
@@ -70,7 +70,9 @@ class Stg_ZigZag : public Strategy {
 
   static Stg_ZigZag *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
+    Indi_ZigZag_Params_Defaults indi_zigzag_defaults;
     ZigZagParams _indi_params(indi_zigzag_defaults, _tf);
+    Stg_ZigZag_Params_Defaults stg_zigzag_defaults;
     StgParams _stg_params(stg_zigzag_defaults);
 #ifdef __config__
     SetParamsByTf<ZigZagParams>(_indi_params, _tf, indi_zigzag_m1, indi_zigzag_m5, indi_zigzag_m15, indi_zigzag_m30,
