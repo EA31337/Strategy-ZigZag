@@ -3,7 +3,7 @@
   "program_type":"expert",
   "copyright"   :"Copyright 2016-2021, EA31337 Ltd",
   "link"        :"https:\/\/github.com\/EA31337\/Strategy-ZigZag",
-  "version"     :"1.005",
+  "version"     :"1.007",
   "description" :"Strategy based on the ZigZag indicator.",
   "optimize"    :"0",
   "fpzerocheck" :"0",
