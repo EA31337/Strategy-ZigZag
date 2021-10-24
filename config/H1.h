@@ -4,8 +4,8 @@
  */
 
 // Defines indicator's parameter values for the given pair symbol and timeframe.
-struct Indi_ZigZag_Params_H1 : ZigZagParams {
-  Indi_ZigZag_Params_H1() : ZigZagParams(indi_zigzag_defaults, PERIOD_H1) {
+struct Indi_ZigZag_Params_H1 : IndiZigZagParams {
+  Indi_ZigZag_Params_H1() : IndiZigZagParams(indi_zigzag_defaults, PERIOD_H1) {
     backstep = 3;
     depth = 12;
     deviation = 5;

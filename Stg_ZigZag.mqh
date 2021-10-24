@@ -31,10 +31,10 @@ INPUT int ZigZag_Indi_ZigZag_Shift = 0;      // Shift
 // Structs.
 
 // Defines struct with default user indicator values.
-struct Indi_ZigZag_Params_Defaults : ZigZagParams {
+struct Indi_ZigZag_Params_Defaults : IndiZigZagParams {
   Indi_ZigZag_Params_Defaults()
-      : ZigZagParams(::ZigZag_Indi_ZigZag_Depth, ::ZigZag_Indi_ZigZag_Deviation, ::ZigZag_Indi_ZigZag_Backstep,
-                     ::ZigZag_Indi_ZigZag_Shift) {}
+      : IndiZigZagParams(::ZigZag_Indi_ZigZag_Depth, ::ZigZag_Indi_ZigZag_Deviation, ::ZigZag_Indi_ZigZag_Backstep,
+                         ::ZigZag_Indi_ZigZag_Shift) {}
 };
 
 // Defines struct with default user strategy values.
@@ -71,12 +71,12 @@ class Stg_ZigZag : public Strategy {
   static Stg_ZigZag *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
     Indi_ZigZag_Params_Defaults indi_zigzag_defaults;
-    ZigZagParams _indi_params(indi_zigzag_defaults, _tf);
+    IndiZigZagParams _indi_params(indi_zigzag_defaults, _tf);
     Stg_ZigZag_Params_Defaults stg_zigzag_defaults;
     StgParams _stg_params(stg_zigzag_defaults);
 #ifdef __config__
-    SetParamsByTf<ZigZagParams>(_indi_params, _tf, indi_zigzag_m1, indi_zigzag_m5, indi_zigzag_m15, indi_zigzag_m30,
-                                indi_zigzag_h1, indi_zigzag_h4, indi_zigzag_h8);
+    SetParamsByTf<IndiZigZagParams>(_indi_params, _tf, indi_zigzag_m1, indi_zigzag_m5, indi_zigzag_m15, indi_zigzag_m30,
+                                    indi_zigzag_h1, indi_zigzag_h4, indi_zigzag_h8);
     SetParamsByTf<StgParams>(_stg_params, _tf, stg_zigzag_m1, stg_zigzag_m5, stg_zigzag_m15, stg_zigzag_m30,
                              stg_zigzag_h1, stg_zigzag_h4, stg_zigzag_h8);
 #endif
