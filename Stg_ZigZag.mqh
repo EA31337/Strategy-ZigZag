@@ -30,13 +30,6 @@ INPUT int ZigZag_Indi_ZigZag_Shift = 0;      // Shift
 
 // Structs.
 
-// Defines struct with default user indicator values.
-struct Indi_ZigZag_Params_Defaults : IndiZigZagParams {
-  Indi_ZigZag_Params_Defaults()
-      : IndiZigZagParams(::ZigZag_Indi_ZigZag_Depth, ::ZigZag_Indi_ZigZag_Deviation, ::ZigZag_Indi_ZigZag_Backstep,
-                         ::ZigZag_Indi_ZigZag_Shift) {}
-};
-
 // Defines struct with default user strategy values.
 struct Stg_ZigZag_Params_Defaults : StgParams {
   Stg_ZigZag_Params_Defaults()
@@ -88,8 +81,9 @@ class Stg_ZigZag : public Strategy {
    * Event on strategy's init.
    */
   void OnInit() {
-    Indi_ZigZag_Params_Defaults indi_zigzag_defaults;
-    IndiZigZagParams _indi_params(indi_zigzag_defaults, Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
+    IndiZigZagParams _indi_params(::ZigZag_Indi_ZigZag_Depth, ::ZigZag_Indi_ZigZag_Deviation,
+                                  ::ZigZag_Indi_ZigZag_Backstep, ::ZigZag_Indi_ZigZag_Shift);
+    _indi_params.SetTf(Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
     SetIndicator(new Indi_ZigZag(_indi_params));
   }
 
