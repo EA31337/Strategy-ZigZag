@@ -70,13 +70,9 @@ class Stg_ZigZag : public Strategy {
 
   static Stg_ZigZag *Init(ENUM_TIMEFRAMES _tf = NULL) {
     // Initialize strategy initial values.
-    Indi_ZigZag_Params_Defaults indi_zigzag_defaults;
-    IndiZigZagParams _indi_params(indi_zigzag_defaults, _tf);
     Stg_ZigZag_Params_Defaults stg_zigzag_defaults;
     StgParams _stg_params(stg_zigzag_defaults);
 #ifdef __config__
-    SetParamsByTf<IndiZigZagParams>(_indi_params, _tf, indi_zigzag_m1, indi_zigzag_m5, indi_zigzag_m15, indi_zigzag_m30,
-                                    indi_zigzag_h1, indi_zigzag_h4, indi_zigzag_h8);
     SetParamsByTf<StgParams>(_stg_params, _tf, stg_zigzag_m1, stg_zigzag_m5, stg_zigzag_m15, stg_zigzag_m30,
                              stg_zigzag_h1, stg_zigzag_h4, stg_zigzag_h8);
 #endif
@@ -85,8 +81,16 @@ class Stg_ZigZag : public Strategy {
     ChartParams _cparams(_tf, _Symbol);
     TradeParams _tparams;
     Strategy *_strat = new Stg_ZigZag(_stg_params, _tparams, _cparams, "ZigZag");
-    _strat.SetIndicator(new Indi_ZigZag(_indi_params));
     return _strat;
+  }
+
+  /**
+   * Event on strategy's init.
+   */
+  void OnInit() {
+    Indi_ZigZag_Params_Defaults indi_zigzag_defaults;
+    IndiZigZagParams _indi_params(indi_zigzag_defaults, Get<ENUM_TIMEFRAMES>(STRAT_PARAM_TF));
+    SetIndicator(new Indi_ZigZag(_indi_params));
   }
 
   /**
