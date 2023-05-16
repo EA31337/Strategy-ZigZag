@@ -20,6 +20,7 @@ It is a polyline that consequently joins the peaks and troughs on a price chart.
 | ...      | ...       |
 | v1.010   | v2.010    |
 | v1.011   | v2.011.1  |
+| v1.012   | v2.012.1  |
 
 <!-- Named links -->
 
