@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           path: Include/EA31337-classes
-          ref: dev
+          ref: v3.000.1
           repository: EA31337/EA31337-classes
       - name: Enables optimization mode
         run: echo '#define __input__' > config/define.h
