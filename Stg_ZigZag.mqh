@@ -101,16 +101,16 @@ class Stg_ZigZag : public Strategy {
     IndicatorSignal _signals = _indi.GetSignals(4, _shift);
     float _hm = (float)fmax4(_indi[_shift][(int)ZIGZAG_HIGHMAP], _indi[_shift + 1][(int)ZIGZAG_HIGHMAP],
                              _indi[_shift + 2][(int)ZIGZAG_HIGHMAP], _indi[_shift + 4][(int)ZIGZAG_HIGHMAP]);
-    float _lm = (float)fmin4(_indi[_shift][(int)ZIGZAG_LOWMAP], _indi[_shift + 1][(int)ZIGZAG_LOWMAP],
+    float _lm = (float)fmax4(_indi[_shift][(int)ZIGZAG_LOWMAP], _indi[_shift + 1][(int)ZIGZAG_LOWMAP],
                              _indi[_shift + 2][(int)ZIGZAG_LOWMAP], _indi[_shift + 4][(int)ZIGZAG_LOWMAP]);
     switch (_cmd) {
       case ORDER_TYPE_BUY:
-        _result &= _hm > 0 && Open[_shift] < _hm;
+        _result &= _hm > 0 && Open[_shift] > _hm;
         _result &= _lm == 0;
         _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
       case ORDER_TYPE_SELL:
-        _result &= _lm > 0 && Open[_shift] > _lm;
+        _result &= _lm > 0 && Open[_shift] < _lm;
         _result &= _hm == 0;
         _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
