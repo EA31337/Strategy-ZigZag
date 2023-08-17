@@ -7,13 +7,13 @@
 INPUT_GROUP("ZigZag strategy: strategy params");
 INPUT float ZigZag_LotSize = 0;                // Lot size
 INPUT int ZigZag_SignalOpenMethod = 0;         // Signal open method (-127-127)
-INPUT float ZigZag_SignalOpenLevel = 0.0f;     // Signal open level
+INPUT float ZigZag_SignalOpenLevel = 0.1f;     // Signal open level
 INPUT int ZigZag_SignalOpenFilterMethod = 32;  // Signal open filter method
 INPUT int ZigZag_SignalOpenFilterTime = 3;     // Signal open filter time
 INPUT int ZigZag_SignalOpenBoostMethod = 0;    // Signal open boost method
 INPUT int ZigZag_SignalCloseMethod = 0;        // Signal close method (-127-127)
 INPUT int ZigZag_SignalCloseFilter = 32;       // Signal close filter (-127-127)
-INPUT float ZigZag_SignalCloseLevel = 0.0f;    // Signal close level
+INPUT float ZigZag_SignalCloseLevel = 0.1f;    // Signal close level
 INPUT int ZigZag_PriceStopMethod = 1;          // Price stop method (0-127)
 INPUT float ZigZag_PriceStopLevel = 2;         // Price stop level
 INPUT int ZigZag_TickFilterMethod = 32;        // Tick filter method
@@ -105,13 +105,13 @@ class Stg_ZigZag : public Strategy {
                              _indi[_shift + 2][(int)ZIGZAG_LOWMAP], _indi[_shift + 4][(int)ZIGZAG_LOWMAP]);
     switch (_cmd) {
       case ORDER_TYPE_BUY:
-        _result &= _hm > 0 && High[_shift] > _hm;
-        _result &= _lm == 0;
+        _result &= _hm > 0 && _lm == 0;
+        _result &= High[_shift] > _hm + (_level * Market().GetPipSize());
         _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
       case ORDER_TYPE_SELL:
-        _result &= _lm > 0 && Low[_shift] < _lm;
-        _result &= _hm == 0;
+        _result &= _lm > 0 && _hm == 0;
+        _result &= Low[_shift] < _lm - (_level * Market().GetPipSize());
         _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
     }
