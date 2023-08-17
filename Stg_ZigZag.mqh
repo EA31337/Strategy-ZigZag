@@ -105,12 +105,12 @@ class Stg_ZigZag : public Strategy {
                              _indi[_shift + 2][(int)ZIGZAG_LOWMAP], _indi[_shift + 4][(int)ZIGZAG_LOWMAP]);
     switch (_cmd) {
       case ORDER_TYPE_BUY:
-        _result &= _hm > 0 && Open[_shift] > _hm;
+        _result &= _hm > 0 && High[_shift] > _hm;
         _result &= _lm == 0;
         _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
       case ORDER_TYPE_SELL:
-        _result &= _lm > 0 && Open[_shift] < _lm;
+        _result &= _lm > 0 && Low[_shift] < _lm;
         _result &= _hm == 0;
         _result &= _method > 0 ? _signals.CheckSignals(_method) : _signals.CheckSignalsAll(-_method);
         break;
