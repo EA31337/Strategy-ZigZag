@@ -44,7 +44,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: EA
-          path: '*.ex?'
+          path: '*.ex[45]'
   Process:
     env:
       SETS_DIR: sets/optimize/indicator
