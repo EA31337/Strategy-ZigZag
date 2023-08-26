@@ -22,7 +22,7 @@ input bool Info_On_Chart = true;          // Display info on chart.
 
 // Defines.
 #define ea_name "Strategy ZigZag"
-#define ea_version "1.010"
+#define ea_version "2.000"
 #define ea_desc "Strategy based on EA31337 framework."
 #define ea_link "https://github.com/EA31337/Strategy-ZigZag"
 #define ea_author "EA31337 Ltd"
