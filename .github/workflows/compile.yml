@@ -19,32 +19,61 @@ on:
       - '.git*'
 
 jobs:
-  Compile:
+  checkout-classes:
+    name: Checkout Classes repo
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: v3.000.1
+          repository: EA31337/EA31337-classes
+      - name: Uploads source code
+        uses: actions/upload-artifact@v4
+        with:
+          name: src-classes
+          path: .
+
+  mt4:
+    name: Installs platform (4)
+    uses: EA31337/EA-Tester/.github/workflows/platform-linux.yml@dev
+    with:
+      artifact_name: .mt4
+      artifact_overwrite: true
+      skip_cleanup: true
+      version: 4
+  mt5:
+    name: Installs platform (5)
+    uses: EA31337/EA-Tester/.github/workflows/platform-linux.yml@dev
+    with:
+      artifact_name: .mt5
+      artifact_overwrite: true
+      skip_cleanup: true
+      version: 5
+
+  compile:
     defaults:
       run:
         shell: powershell
+    name: Compile
+    needs: [checkout-classes, mt4, mt5]
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
+          submodules: recursive
+      - uses: actions/download-artifact@v4
+        with:
+          name: src-classes
           path: Include/EA31337-classes
-          ref: v3.000.1
-          repository: EA31337/EA31337-classes
-      - name: Compile for MQL4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: .mt?
+      - name: Compile
         uses: fx31337/mql-compile-action@master
         with:
           include: .
-          init-platform: true
-          mt-version: 5.0.0.2361
-          path: Stg_ZigZag.mq4
-          verbose: true
-      - name: Compile for MQL5
-        uses: fx31337/mql-compile-action@master
-        with:
-          include: .
-          mt-version: 5.0.0.2515
-          path: Stg_ZigZag.mq5
+          mt-path: .mt${{ matrix.version }}
+          path: "**/Stg_*.mq${{ matrix.version }}"
           verbose: true
       - name: List compiled files
         run: '(Get-ChildItem -Recurse -Path . -Include *.ex[45]).fullname'
@@ -52,5 +81,22 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: EA
-          path: '*.ex[45]'
+          name: Strategy
+          path: '**/Stg_*.ex[45]'
+    strategy:
+      matrix:
+        version:
+          - 4
+          - 5
+      max-parallel: 2
+    timeout-minutes: 10
+
+  cleanup:
+    if: inputs.skip_cleanup != true
+    name: Clean-up
+    needs: [compile]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: geekyeggo/delete-artifact@v5
+        with:
+          name: .mt?
